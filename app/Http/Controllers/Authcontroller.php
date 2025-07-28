@@ -24,7 +24,16 @@ class Authcontroller extends Controller
         if ($akun) {
             // login manual
             Auth::login($akun);
-            return redirect('/dashboard');
+
+            $role = Auth::user()->role;
+
+            if($role === 'admin'){
+                return redirect('/dashboard');
+            }elseif ($role === 'petugas'){
+                return redirect('/petugas');
+            }else{
+                return redirect('/masyarakat');
+            }
         }
 
         return back()->withErrors([
@@ -34,7 +43,7 @@ class Authcontroller extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout(); 
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

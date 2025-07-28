@@ -12,6 +12,12 @@ Route::post('/login', [Authcontroller::class, "login"]);
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
+Route::get('/petugas', function () {
+    return view('petugas');
+})->middleware('auth');
+Route::get('/masyarakat', function () {
+    return view('masyarakat');
+})->middleware('auth');
 
 
 
