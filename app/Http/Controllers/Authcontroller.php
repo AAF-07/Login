@@ -6,48 +6,41 @@ use App\Models\Akun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class Authcontroller extends Controller
 {
-    public function ShowLoginForm(){
+    public function ShowLoginForm()
+    {
         return view('login');
     }
+
     public function login(Request $request)
     {
-        $username = $request->input('username');
-        $password = $request->input('password');
+        $nik = trim($request->input('nik'));
+        $password = trim($request->input('password'));
 
-        // ambil user dari tabel akun
-        $akun = Akun::where('nama', $username)
-                    ->where('password', $password) // langsung cocokkan tanpa hash
-                    ->first();
+        // cari user berdasarkan NIK
+        $akun = Akun::where('NIK', $nik)->first();
 
-        if ($akun) {
-            // login manual
-            Auth::login($akun);
-
-            $role = Auth::user()->role;
-
-            if($role === 'admin'){
-                return redirect('/dashboard');
-            }elseif ($role === 'petugas'){
-                return redirect('/petugas');
-            }else{
-                return redirect('/masyarakat');
-            }
+        if (!$akun) {
+            return back()->withErrors(['nik' => 'NIK tidak ditemukan']);
         }
 
-        return back()->withErrors([
-            'username' => 'Username atau password salah',
-        ]);
+        // cek password tanpa hash
+        if ($akun->password !== $password) {
+            return back()->withErrors(['password' => 'Password salah']);
+        }
+
+        // login manual
+        Auth::login($akun);
+        return redirect('/masyarakat');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return redirect('/login');
     }
 }

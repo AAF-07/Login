@@ -18,7 +18,7 @@
     @endif
     <form method="POST" action="{{ route('login')}}">
         @csrf
-        <input type="username" name="username" required>username
+        <input type="text" name="nik" required>username
         <input type="password" name="password" required>password
         <button type="submit">login</button>
     </form>

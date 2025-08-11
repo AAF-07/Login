@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authcontroller;
+use App\Http\Controllers\PengaduanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,6 +20,6 @@ Route::get('/masyarakat', function () {
     return view('masyarakat');
 })->middleware('auth');
 
-
+Route::post('/pengaduan', [PengaduanController::class, 'store'])->middleware('auth')->name('pengaduan.store');
 
 Route::post('/logout', [Authcontroller::class, 'logout'])->name('logout');
