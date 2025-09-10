@@ -40,9 +40,14 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'masyarakat',
+        ],
+        'petugas' => [
+            'driver' => 'session',
+            'provider' => 'petugas',
         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -61,17 +66,16 @@ return [
     |
     */
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', Akun::class),
-        ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+'providers' => [
+    'masyarakat' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Akun::class,
     ],
+    'petugas' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Petugas::class,
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------

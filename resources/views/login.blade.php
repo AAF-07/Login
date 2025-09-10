@@ -18,8 +18,9 @@
     @endif
     <form method="POST" action="{{ route('login')}}">
         @csrf
-        <input type="text" name="nik" required>username
-        <input type="password" name="password" required>password
+        <input type="text" name="nik" placeholder="NIK" >
+        <input type="text" name="id_petugas" placeholder="ID Petugas">
+        <input type="password" name="password" placeholder="password" required>
         <button type="submit">login</button>
     </form>
 </body>
