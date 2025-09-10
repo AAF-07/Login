@@ -10,6 +10,9 @@ Route::get('/', function () {
 Route::get('/login', [Authcontroller::class, "ShowLoginForm"])->name('login');
 Route::post('/login', [Authcontroller::class, "login"]);
 
+Route::get('/regis', [Authcontroller::class, "showRegisterForm"])->name('register');
+Route::post('/regis', [Authcontroller::class, "register"]);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 });

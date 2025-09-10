@@ -22,6 +22,7 @@
         <input type="text" name="id_petugas" placeholder="ID Petugas">
         <input type="password" name="password" placeholder="password" required>
         <button type="submit">login</button>
+        <a href="/regis">register</a>
     </form>
 </body>
 </html>

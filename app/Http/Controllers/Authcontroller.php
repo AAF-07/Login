@@ -9,12 +9,41 @@ use Illuminate\Support\Facades\Auth;
 
 class Authcontroller extends Controller
 {
+    public function showRegisterForm()
+    {
+        return view('register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'nama'     => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:masyarakat,username',
+            'telp'     => 'required|string|max:255',
+            'NIK'      => 'required|string|max:255|unique:masyarakat,NIK',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+
+        $user = Akun::create([
+            'nama'     => $request->nama,
+            'username'    => $request->username,
+            'telp'     => $request->telp,
+            'NIK'    => $request->NIK,
+            'password' => $request->password,
+        ]);
+
+
+        auth()->login($user);
+
+        return redirect()->route('login')->with('success', 'Registrasi berhasil!');
+    }
+
+
     public function ShowLoginForm()
     {
         return view('login');
     }
-
-
 
     public function login(Request $request)
     {
