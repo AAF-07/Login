@@ -2,11 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authcontroller;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PengaduanController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware(['auth:petugas','can:isAdmin'])->group(function () {
+    Route::get('/admin/akun/create', [AdminController::class, 'create'])->name('admin.akun.create');
+    Route::post('/admin/akun/store', [AdminController::class, 'store'])->name('admin.akun.store');
+    Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
+});
+
+Gate::define('isAdmin', function ($user) {
+    return $user->level === 'admin';
+});
+
 Route::get('/login', [Authcontroller::class, "ShowLoginForm"])->name('login');
 Route::post('/login', [Authcontroller::class, "login"]);
 
