@@ -50,10 +50,9 @@
     </form>
 @endif
 
-    <a href="{{ url()->previous() }}">Kembali</a>
     <p><strong>Isi Laporan:</strong> {{ $items->isi_laporan }}</p>
 
-    @endforeach
+@endforeach
 
     <h1>Tambah Akun Baru</h1>
 

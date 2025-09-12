@@ -27,6 +27,22 @@ Route::middleware(['auth:petugas'])->group(function () {
         ->name('admin.tanggapan.store');
 });
 
+Route::post('/petugas/pengaduan/{id_pengaduan}/selesai', function($id_pengaduan) {
+    $pengaduan = \App\Models\Pengaduan::findOrFail($id_pengaduan);
+    $pengaduan->status = 'selesai';
+    $pengaduan->save();
+    return redirect('/petugas')->with('success', 'Pengaduan telah diselesaikan!');
+})->name('admin.pengaduan.selesai')->middleware('auth:petugas');
+
+Route::middleware(['auth:petugas'])->group(function () {
+    // Form tanggapan (GET)
+    Route::get('/petugas/pengaduan/{id_pengaduan}/tanggapan', [TanggapanController::class, 'create'])
+        ->name('admin.tanggapan.create');
+
+    Route::post('/petugas/pengaduan/{id_pengaduan}/tanggapan', [TanggapanController::class, 'store'])
+        ->name('admin.tanggapan.store');
+});
+
 Route::middleware(['auth:petugas','can:isAdmin'])->group(function () {
     Route::get('/admin/akun/create', [AdminController::class, 'create'])->name('admin.akun.create');
     Route::post('/admin/akun/store', [AdminController::class, 'store'])->name('admin.akun.store');
@@ -58,7 +74,8 @@ Route::get('/masyarakat', function () {
 })->middleware('auth'); // default guard: web/masyarakat
 
 Route::get('/petugas', function () {
-    return view('petugas');
+        $pengaduan = Pengaduan::all();
+    return view('petugas', compact('pengaduan'));
 })->middleware('auth:petugas');
 
 Route::get('/admin', function () {
