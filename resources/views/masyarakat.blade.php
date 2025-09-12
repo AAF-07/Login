@@ -5,6 +5,18 @@
     <button type="submit">Logout</button>
 </form>
 
+@foreach ($pengaduan as $items)
+    @if($items->foto)
+        <p><strong>Foto:</strong><br>
+        <img src="{{ asset('storage/' . $items->foto) }}" width="200"></p>
+    @endif
+    <p><strong>Tanggal Pengaduan:</strong> {{ $items->tgl_pengaduan }}</p>
+    <p><strong>NIK:</strong> {{ $items->NIK }}</p>
+    <p><strong>Isi Laporan:</strong> {{ $items->isi_laporan }}</p>
+    <p><strong>Status:</strong>{{ $items->status }} </p>
+
+@endforeach
+
 <hr>
 <h2>Buat Pengaduan Baru</h2>
 @if (session('success'))
