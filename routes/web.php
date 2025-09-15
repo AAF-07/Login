@@ -8,7 +8,7 @@ use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\TanggapanController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view ('welcome');
 });
 
 Route::post('/admin/pengaduan/{id_pengaduan}/selesai', function($id_pengaduan) {
@@ -32,15 +32,15 @@ Route::post('/petugas/pengaduan/{id_pengaduan}/selesai', function($id_pengaduan)
     $pengaduan->status = 'selesai';
     $pengaduan->save();
     return redirect('/petugas')->with('success', 'Pengaduan telah diselesaikan!');
-})->name('admin.pengaduan.selesai')->middleware('auth:petugas');
+})->name('petugas.pengaduan.selesai')->middleware('auth:petugas');
 
 Route::middleware(['auth:petugas'])->group(function () {
     // Form tanggapan (GET)
     Route::get('/petugas/pengaduan/{id_pengaduan}/tanggapan', [TanggapanController::class, 'create'])
-        ->name('admin.tanggapan.create');
+        ->name('petugas.tanggapan.create');
 
     Route::post('/petugas/pengaduan/{id_pengaduan}/tanggapan', [TanggapanController::class, 'store'])
-        ->name('admin.tanggapan.store');
+        ->name('petugas.tanggapan.store');
 });
 
 Route::middleware(['auth:petugas','can:isAdmin'])->group(function () {

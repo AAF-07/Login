@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Petugas;
 use App\Models\Pengaduan;
 use App\Models\Tanggapan;
 use Illuminate\Http\Request;
@@ -32,10 +33,12 @@ class TanggapanController extends Controller
         $pengaduan->status = 'proses';
         $pengaduan->save();
 
-        // Redirect ke halaman admin atau detail pengaduan
-        return redirect('/admin')->with('success', 'Tanggapan berhasil dikirim!');
-        // atau jika ingin ke detail:
-        // return redirect()->route('admin.tanggapan.create', $id_pengaduan)->with('success', 'Tanggapan berhasil dikirim!');
+        $akun = Petugas::find(auth()->guard('petugas')->id());
 
+        if($akun->level === 'admin'){
+            return redirect('/admin')->with('success', 'Tanggapan berhasil dikirim!');
+        }else{
+            return redirect('/petugas')->with('success', 'Tanggapan berhasil dikirim!');
+        }
     }
 }

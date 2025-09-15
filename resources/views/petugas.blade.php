@@ -12,7 +12,7 @@
 
     <h1>Beri Tanggapan</h1>
 
-    
+
     @foreach ($pengaduan as $items)
     <p><strong>Tanggal Pengaduan:</strong> {{ $items->tgl_pengaduan }}</p>
     <p><strong>NIK:</strong> {{ $items->NIK }}</p>
@@ -47,7 +47,7 @@
     @endif
 
     @if($items->status == 'proses')
-    <form method="POST" action="{{ route('admin.pengaduan.selesai', $items->id_pengaduan) }}">
+    <form method="POST" action="{{ route('petugas.pengaduan.selesai', $items->id_pengaduan) }}">
         @csrf
         <button type="submit" onclick="return confirm('Yakin ingin menyelesaikan pengaduan ini?')">Tandai Selesai</button>
     </form>
